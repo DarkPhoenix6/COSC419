@@ -1,0 +1,41 @@
+{% extends "myTemplate.html" %}
+{% block title %}
+{{ page_title }}
+{% endblock %}
+
+{% block jumbotron_container_content %}
+<h1 class="display-3">{{ page_title }}</h1>
+
+{% if contact_success %}
+	<p class="sucess-contact">Thank you for using the contact form. We will reply soon.</p>
+{% endif %}
+	<p>use the form below</p>
+
+{% endblock %}
+{% block container_content %}
+<div class="row">
+	<div class="col-sm-4 col-sm-offset-2">
+		<div class="card bg-light mb-3">
+			<div class="card-header">
+				Email
+			</div>
+			<div class="card-body">
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="input-group">
+							<form method="post" _lpchecked="1">
+								<label for="inputEmail" class="sr-only">Your Email address</label>
+								<input name="email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="" >
+								<label for="inputSubject" class="sr-only">Subject</label>
+								<input name="subject" type="text" id="inputSubject" class="form-control" placeholder="Subject" required="" >
+								<textarea class="form-control" id="email_message" name="message"></textarea>
+								<button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div> <!-- row -->
+{% endblock %}

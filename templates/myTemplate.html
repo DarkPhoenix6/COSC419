@@ -1,0 +1,31 @@
+{% extends "navbar_temp.html" %}
+{% block css_block %}
+<link href="{{url_for('static', filename='error.css')}}" rel="stylesheet">
+<link href="{{url_for('static', filename='style.css')}}" rel="stylesheet">
+{% endblock %}
+	{% block content %}
+    <div class="jumbotron">
+	<div class ="container">
+	{% with errors = get_flashed_messages() %}
+		{% if errors %}
+			{% for message in errors %}
+				<p class="err-msg">{{message|safe}}</p>
+			{% endfor %}
+		{% endif %}
+	{% endwith %}
+	{% block jumbotron_container_content %}{% endblock %}
+	</div> <!-- jumbotron container -->
+	
+    </div> <!-- jumbotron -->
+	<div class ="container">
+		{% block container_content %}{% endblock %}
+	</div> <!-- container -->
+	<hr>
+	{% endblock %}
+	{% block footer %}
+    <footer class="container">
+      <p>© Chris Fedun 2017-2018</p>
+    </footer>
+	
+	{% endblock %}
+

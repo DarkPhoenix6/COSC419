@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+ <head>
+ 
+	{% if err_title %}
+		<title>{{ err_title }}</title>
+	{% else %}
+		<title>Error</title>
+	{% endif %}
+
+ </head>
+ <body>
+   {% if err_code %}
+     <h1><strong>{{ err_code|safe }}</strong></h1>
+   {% else %}
+     <h1>Error</h1>
+   {% endif %}
+   {% if err_msg %}
+		{% if err is equalto 418 %}
+			<img src="{{url_for('static', filename='mrs_potts_beauty_and_the_beast_belle_cogsworth_beauty_and_the_beast.jpg')}}" width="135" height="100" alt="Teapot">
+		{% endif %}	
+    <p>{{ err_msg|safe }}</p>
+   {% else %}
+     <h2>An error occured</h2>
+   {% endif %}
+
+ </body>
+</html>
