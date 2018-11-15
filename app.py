@@ -7,7 +7,7 @@ import sqlite3
 MyApp = Flask(__name__)
 MyApp.secret_key = os.urandom(16)
 
-con = sqlite3.connect('/var/www/lab8/lab8.db')
+con = sqlite3.connect('lab8.db')
 cur = con.cursor()
 
 def login_check(username, password):
