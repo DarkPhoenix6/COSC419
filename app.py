@@ -60,7 +60,7 @@ def my_render(filename, **kwargs):
 
 @MyApp.route("/")
 def main_page():
-	return my_render('index.html', home_current=True)
+	return my_render('index.html', home_current=True, page_title='Homepage')
 
 @MyApp.errorhandler(418)
 def teapot_error(error):
@@ -109,7 +109,7 @@ def teapot():
 @MyApp.route("/page2")
 def page2_page():
 	if is_logged_in():
-		return my_render('index.html', page2_current=True)
+		return my_render('index.html', page2_current=True, page_title='Page2')
 	else:
 		r = random.randint(0,9999)
 		r = r % 2
