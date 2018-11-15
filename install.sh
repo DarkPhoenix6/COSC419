@@ -1,7 +1,7 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 if [[ "$(cat /proc/version)" =~ .*"Red Hat".* ]]; then
-	#centos7
+	#centos
     sudo yum install python-pip
     sudo pip install --upgrade pip
     sudo pip install flask
