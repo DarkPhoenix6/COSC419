@@ -75,6 +75,10 @@ def login_submit():
 def show_user_profile(username):
 	#teapot for now
 	abort(418)
+
+@MyApp.route("/account/<username>/checkout")
+def show_user_checkout(username):
+	return my_render('checkout.html', login_current=True, page_title='Checkout')
 	
 @MyApp.route("/account/<username>")
 def show_user_account(username):
