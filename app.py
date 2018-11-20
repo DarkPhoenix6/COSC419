@@ -78,7 +78,7 @@ def show_user_profile(username):
 
 @MyApp.route("/account/<username>/checkout")
 def show_user_checkout(username):
-	return my_render('checkout.html', login_current=True, page_title='Checkout')
+	return my_render('checkout.html', login_current=True, page_title='Checkout', cart=None)
 	
 @MyApp.route("/account/<username>")
 def show_user_account(username):
