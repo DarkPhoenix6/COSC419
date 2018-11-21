@@ -19,6 +19,11 @@ def login_check(username, password):
 		return False
 	return True
 
+
+def get_email(username):
+    cur.execute('SELECT email FROM users WHERE username == ?', username)
+    return cur.fetchone()
+
 def session_user():
 	return session['username']
 	
@@ -78,7 +83,12 @@ def show_user_profile(username):
 
 @MyApp.route("/account/<username>/checkout")
 def show_user_checkout(username):
-	return my_render('checkout.html', login_current=True, page_title='Checkout', cart=None)
+    if not is_logged_in() or username != session_user():
+        abort(403)
+    cart=None
+    promo_codes=None
+    email = get_email(session_user());
+	return my_render('checkout.html', login_current=True, page_title='Checkout', cart=cart, promo_codes=promo_codes, email=email)
 	
 @MyApp.route("/account/<username>")
 def show_user_account(username):
