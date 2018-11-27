@@ -24,6 +24,10 @@ def get_email(username):
     cur.execute('SELECT email FROM users WHERE username == ?', username)
     return cur.fetchone()
 
+def get_current_datetime():
+    cur.execute("SELECT strftime('%Y-%m-%dT%H:%M:%fZ','now')")
+    return cur.fetchone()
+
 def session_user():
 	return session['username']
 	
@@ -54,7 +58,22 @@ def err_func(err):
 	else:
 		return render_template(filename, home_current=home_current, login_current=login_current, about_current=about_current, contact_current=contact_current, page2_current=page2_current, page_title=page_title, is_logged_in=is_logged_in())
 """
+"""
+SELECT * FROM cart
+                join (SELECT id AS uid, username, email from users) AS u on (cart.user_id = u.uid)
+                join (SELECT id AS iid, product_upc, product_name, cost, product_description FROM items) AS i on (cart.item_id = i.iid)
+                join (SELECT id AS cid, value, value_type, code_name, start_date, end_date FROM promo_codes) AS code on (cart.promo_id = code.cid);
 
+SELECT * FROM cart
+                join (SELECT id AS uid, username, email from users) AS u on (cart.user_id = u.uid)
+                join (SELECT id AS iid, product_upc, product_name, cost, product_description FROM items) AS i on (cart.item_id = i.iid)
+                WHERE item_id != 0;
+
+SELECT * FROM cart
+                join (SELECT id AS uid, username, email from users) AS u on (cart.user_id = u.uid)
+                join (SELECT id AS cid, value, value_type, code_name, start_date, end_date FROM promo_codes) AS code on (cart.promo_id = code.cid)
+                WHERE item_id == 0;
+"""
 def my_render(filename, **kwargs):
 	kargs = dict(kwargs)
 	kargs['is_logged_in'] = is_logged_in()
