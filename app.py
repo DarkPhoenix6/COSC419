@@ -107,7 +107,7 @@ def show_user_checkout(username):
     cart=None
     promo_codes=None
     email = get_email(session_user());
-	return my_render('checkout.html', login_current=True, page_title='Checkout', cart=cart, promo_codes=promo_codes, email=email)
+    return my_render('checkout.html', login_current=True, page_title='Checkout', cart=cart, promo_codes=promo_codes, email=email)
 	
 @MyApp.route("/account/<username>")
 def show_user_account(username):
