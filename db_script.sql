@@ -88,3 +88,13 @@ create unique index users_id_uindex
 
 REPLACE INTO promo_codes SET value = 0, value_type = 'items', start_date = '1970-01-01T00:00:00+0000', end_date = '1970-01-01T00:00:00+0000', code_name = 'ITEM' WHERE id = 0;
 REPLACE INTO items SET product_upc = 0, product_name = 'PROMO_CODE', cost = 0, product_description = 'promo code' WHERE id = 0;
+INSERT INTO cart (id, user_id, item_id, quantity, promo_id, created_time, modified_time) VALUES (1, 1, 2, 2, 0, '2018-11-22T03:15:02.672Z', '2018-11-22T03:18:50.497Z');
+INSERT INTO cart (id, user_id, item_id, quantity, promo_id, created_time, modified_time) VALUES (2, 2, 1, 3, 0, '2018-11-22T01:51:40.930Z', '2018-11-22T03:18:50.504Z');
+INSERT INTO cart (id, user_id, item_id, quantity, promo_id, created_time, modified_time) VALUES (3, 1, 1, 3, 0, '2018-11-22T01:57:09.466Z', '2018-11-22T02:12:30.092Z');
+INSERT INTO users (username, password, email, id) VALUES ('chris', 'P@ssw0rd', 'chris@cfedun.com', 1);
+INSERT INTO users (username, password, email, id) VALUES ('frit', 'p4ssw0rd', 'matt@frit.me', 2);
+INSERT INTO items (id, product_upc, product_name, cost, product_description) VALUES (0, 0, 'PROMO_CODE', 0, 'promo code');
+INSERT INTO items (id, product_upc, product_name, cost, product_description) VALUES (1, 0, 'Item 1', 5, 'first item');
+INSERT INTO items (id, product_upc, product_name, cost, product_description) VALUES (2, 0, 'Item 2', 10, 'Second item');
+INSERT INTO promo_codes (id, value, value_type, start_date, end_date, code_name) VALUES (0, 0, 'items', '1970-01-01T00:00:00+0000', '1970-01-01T00:00:00+0000', 'ITEM');
+INSERT INTO promo_codes (id, value, value_type, start_date, end_date, code_name) VALUES (1, 5, 'dollars', '2018-11-22T01:51:40.930Z', '2018-11-22T01:51:40.930Z', 'EXAMPLECODE');

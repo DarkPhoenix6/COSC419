@@ -107,7 +107,10 @@ def show_user_checkout(username):
     cart=None
     promo_codes=None
     email = get_email(session_user());
-    return my_render('checkout.html', login_current=True, page_title='Checkout', cart=cart, promo_codes=promo_codes, email=email)
+    country = ['<option value="CA">Canada</option>', '<option value="US">United States of America</option>']
+    for i in range(len(country)):
+        country[i] = Markup(country[i])
+    return my_render('checkout.html', login_current=True, page_title='Checkout', cart=cart, promo_codes=promo_codes, email=email, countries=country)
 	
 @MyApp.route("/account/<username>")
 def show_user_account(username):
