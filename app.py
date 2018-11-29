@@ -149,7 +149,13 @@ def show_user_checkout(username):
     for i in range(len(country)):
         country[i] = Markup(country[i])
     cart = get_cart(username)
-    return my_render('checkout.html', login_current=True, page_title='Checkout', cart=cart, promo_codes=promo_codes, email=email, countries=country)
+
+    total = 0
+    if cart is not None:
+        for i in cart:
+            total = total + i['quantity'] * i['cost']
+        total = format(total, '.2f')
+    return my_render('checkout.html', login_current=True, page_title='Checkout', cart=cart, promo_codes=promo_codes, email=email, countries=country, total=total)
 	
 @MyApp.route("/account/<username>")
 def show_user_account(username):
