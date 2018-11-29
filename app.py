@@ -62,10 +62,13 @@ def get_cart(username):
     m = "%s %s %s %s" % ("SELECT * FROM cart", "JOIN (SELECT id AS uid, username, email FROM users) AS u ON (cart.user_id = u.uid)", "JOIN (SELECT id AS iid, product_upc, product_name, cost, product_description FROM items) AS i ON (cart.item_id = i.iid)", "WHERE item_id != 0 AND user_id = (SELECT id from users where username == ?)")
     cur.execute( m, (username,))
     e = [('id', 'user_id', 'item_id', 'quantity', 'promo_id', 'created_time', 'modified_time', 'uid', 'username', 'email', 'iid', 'product_upc', 'product_name', 'cost', 'product_description')] + cur.fetchall()
-    MyApp.logger.warning(e)
+    #MyApp.logger.warning(e)
     if len(e) > 1:
         f = to_dict(e[0], e[1:])
-        MyApp.logger.warning(f)
+        #MyApp.logger.warning(f)
+        e = f
+    return e
+
 
 def err_func(err):
 	err_code = str(err) + " "
@@ -143,7 +146,7 @@ def show_user_checkout(username):
     country = ['<option value="CA">Canada</option>', '<option value="US">United States of America</option>']
     for i in range(len(country)):
         country[i] = Markup(country[i])
-    get_cart(username)
+    cart = get_cart(username)
     return my_render('checkout.html', login_current=True, page_title='Checkout', cart=cart, promo_codes=promo_codes, email=email, countries=country)
 	
 @MyApp.route("/account/<username>")
