@@ -37,7 +37,8 @@ def is_logged_in():
 	return session.get('logged_in') == True
 
 def get_cart(username):
-    cur.execute("SELECT * FROM cart WHERE user_id = (SELECT id FROM users WHERE username == ?)", (username,))
+    m = "%s %s %s %s" % "SELECT * FROM cart", "JOIN (SELECT id AS uid, username, email FROM users) AS u ON (cart.user_id = u.uid)", "JOIN (SELECT id AS iid, product_upc, product_name, cost, product_description FROM items) AS i ON (cart.item_id = i.iid)", " WHERE item_id != 0 AND user_id = (SELECT id from users where username == ?)"
+    cur.execute( m, (username,))
     e = cur.fetchall()
     MyApp.logger.warning(e)
 
