@@ -67,6 +67,8 @@ def get_cart(username):
         f = to_dict(e[0], e[1:])
         #MyApp.logger.warning(f)
         e = f
+    else:
+        e = None
     return e
 
 
