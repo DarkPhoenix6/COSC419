@@ -22,7 +22,9 @@ def login_check(username, password):
 
 def get_email(username):
     cur.execute('SELECT email FROM users WHERE username == ?', (username,))
-    return cur.fetchone()
+    e = cur.fetchone()
+    e = e[2:-1]
+    return e
 
 def get_current_datetime():
     cur.execute("SELECT strftime('%Y-%m-%dT%H:%M:%fZ','now')")
