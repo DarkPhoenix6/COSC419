@@ -35,7 +35,12 @@ def session_user():
 	
 def is_logged_in():
 	return session.get('logged_in') == True
-	
+
+def get_cart(username):
+    cur.execute("SELECT * FROM cart WHERE user_id = (SELECT id FROM users WHERE username == ?)", (username,))
+    e = cur.fetchall()
+    MyApp.logger.warning(e)
+
 def err_func(err):
 	err_code = str(err) + " "
 	err_title = str(err) + " "
@@ -112,6 +117,7 @@ def show_user_checkout(username):
     country = ['<option value="CA">Canada</option>', '<option value="US">United States of America</option>']
     for i in range(len(country)):
         country[i] = Markup(country[i])
+    get_cart(username)
     return my_render('checkout.html', login_current=True, page_title='Checkout', cart=cart, promo_codes=promo_codes, email=email, countries=country)
 	
 @MyApp.route("/account/<username>")
