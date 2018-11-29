@@ -10,6 +10,28 @@ MyApp.secret_key = os.urandom(16)
 con = sqlite3.connect('lab8.db')
 cur = con.cursor()
 
+def to_dict(keys, items):
+	k = {}	# temp dict
+	l = [] # list to hold tuples
+	m = [] # list to hold dictionaries
+	print 'hi'
+	def to_dict_list_gen(it):
+		c = len(keys) if len(keys) <= len(it) else len(it)
+		#for i, j in keys, it:
+		for i in range(c):
+			#yield (i, j)
+			yield (keys[i], it[i])
+
+	if isinstance(items, list) or isinstance(items, tuple):
+		if isinstance(items[0], tuple) or isinstance(items[0], list):
+			l = [ [(u,v) for u,v in to_dict_list_gen(i)] for i in items] # [[list of tuple key:value pairs]]
+			m = [dict(tup) for tup in l]
+			return m
+		else:
+			l = [(u,v) for u,v in to_dict_list_gen(items)]
+			m = [dict(l)]
+			return m
+
 def login_check(username, password):
 	"""if username == 'chris@cfedun.com' and password == 'P@ssw0rd':
 		return True"""
@@ -41,6 +63,9 @@ def get_cart(username):
     cur.execute( m, (username,))
     e = [('id', 'user_id', 'item_id', 'quantity', 'promo_id', 'created_time', 'modified_time', 'uid', 'username', 'email', 'iid', 'product_upc', 'product_name', 'cost', 'product_description')] + cur.fetchall()
     MyApp.logger.warning(e)
+    if len(e) > 1:
+        f = to_dict(e[0], e[1:])
+        MyApp.logger.warning(f)
 
 def err_func(err):
 	err_code = str(err) + " "
