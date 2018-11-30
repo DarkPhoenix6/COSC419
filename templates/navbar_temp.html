@@ -32,6 +32,9 @@
             <li class="nav-item active">
                 <a class="nav-link" href="/account/{{username}}/checkout">checkout</a>
             </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/account/{{username}}/cart">cart</a>
+            </li>
             {% else %}
             <li class="nav-item {% if login_current %}active{% endif %}">
                 <a class="nav-link" href="/login">Login{% if login_current %}<span class="sr-only">(current)</span>{% endif %}</a>

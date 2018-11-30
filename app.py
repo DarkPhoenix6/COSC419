@@ -159,7 +159,28 @@ def show_user_checkout(username):
             cart[i]['cost'] = format(cart[i]['cost'], '.2f')
         total = format(total, '.2f')
     return my_render('checkout.html', login_current=True, page_title='Checkout', cart=cart, promo_codes=promo_codes, email=email, countries=country, total=total)
-	
+
+@MyApp.route("/account/<username>/cart")
+def show_user_cart(username):
+    if not is_logged_in() or username != session_user():
+        abort(403)
+    cart=None
+    promo_codes=None
+    email = get_email(session_user());
+    for i in range(len(country)):
+        country[i] = Markup(country[i])
+    cart = get_cart(username)
+
+    total = 0
+    if cart is not None:
+        for i in cart:
+            total = total + i['quantity'] * i['cost']
+
+        for i in range(len(cart)):
+            cart[i]['cost'] = format(cart[i]['cost'], '.2f')
+        total = format(total, '.2f')
+    return my_render('cart.html', login_current=True, page_title='Cart', cart=cart, promo_codes=promo_codes, email=email, countries=country, total=total)
+
 @MyApp.route("/account/<username>")
 def show_user_account(username):
 	#teapot for now

@@ -1,0 +1,38 @@
+{% extends "main_temp.html" %}
+{% block title %}
+{{ page_title }}
+{% endblock %}
+
+{% block main_attr %} class="bg-light" {% endblock %}
+{% block css_block %}
+<link href="{{url_for('static', filename='error.css')}}" rel="stylesheet">
+<link href="{{url_for('static', filename='style.css')}}" rel="stylesheet">
+{% endblock %}
+{% block content %}
+<div class="container">
+    <ul class="list-group mb-7">
+        {% if cart is none %}
+        <li class="list-group-item d-flex justify-content-between lh-condensed">
+            <div>
+                <h6 class="my-0">Your cart is empty</h6>
+            </div>
+        </li>
+        {% else %}
+        {% for item in cart %}
+        <li class="list-group-item d-flex justify-content-between lh-condensed">
+            <div class="col-md-3">
+                <h6 class="my-0">{{item['product_name']}}</h6>
+                <small class="text-muted">{{ item['product_description']}}</small>
+            </div>
+            <div>
+                <span class="text-muted">${{ item['cost']}}</span>
+                <span class="text-muted">Quantity: <input size="5" type="text" value="{{ item['quantity']}}"></span>
+                <!--<span class="text-muted">{{ item['cost']}}</span>-->  <!-- subtotal -->
+            </div>
+        </li>
+        {% endfor %}
+
+        {% endif %}
+    </ul>
+</div>
+{% endblock %}
