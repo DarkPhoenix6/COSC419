@@ -38,10 +38,10 @@
                             <small class="text-muted">{{ item['product_description']}}</small>
                         </div>
                         <div>
-                            <span class="text-muted">{{ item['cost']}}</span>
+                            <span class="text-muted">${{ item['cost']}}</span>
                             <br>
                             <span class="text-muted">Quantity: {{ item['quantity']}}</span>
-                            <!--<span class="text-muted">{{ item['cost']}}</span>-->
+                            <!--<span class="text-muted">{{ item['cost']}}</span>-->  <!-- subtotal -->
                         </div>
                     </li>
                     {% endfor %}
