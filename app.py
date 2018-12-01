@@ -18,8 +18,8 @@ def to_dict(keys, items):
 	def to_dict_list_gen(it):
 		c = len(keys) if len(keys) <= len(it) else len(it)
 		#for i, j in keys, it:
-		for i in range(c):
 			#yield (i, j)
+		for i in range(c):
 			yield (keys[i], it[i])
 
 	if isinstance(items, list) or isinstance(items, tuple):
@@ -58,8 +58,18 @@ def session_user():
 def is_logged_in():
 	return session.get('logged_in') == True
 
+def get_countries():
+    from countries import my_countries
+    #for i in range(len(my_countries)):
+        #my_countries[i] = Markup(my_countries[i])
+    #return my_countries
+    country = ['<option value="CA">Canada</option>', '<option value="US">United States of America</option>']
+    for i in range(len(country)):
+        country[i] = Markup(country[i])
+    return country
+
 def get_cart(username):
-    m = "%s %s %s %s" % ("SELECT * FROM cart", "JOIN (SELECT id AS uid, username, email FROM users) AS u ON (cart.user_id = u.uid)", "JOIN (SELECT id AS iid, product_upc, product_name, cost, product_description FROM items) AS i ON (cart.item_id = i.iid)", "WHERE item_id != 0 AND user_id = (SELECT id from users where username == ?)")
+    m = "%s %s %s %s" % ("SELECT * FROM cart", "JOIN (SELECT id AS uid, username, email FROM users) AS u ON (cart.user_id = u.uid)", "JOIN (SELECT id AS iid, product_upc, product_name, cost, product_description FROM items) AS i ON (cart.item_id = i.iid)", "WHERE item_id != 0 AND user_id = (SELECT id FROM users WHERE username == ?)")
     cur.execute( m, (username,))
     e = [('id', 'user_id', 'item_id', 'quantity', 'promo_id', 'created_time', 'modified_time', 'uid', 'username', 'email', 'iid', 'product_upc', 'product_name', 'cost', 'product_description')] + cur.fetchall()
     #MyApp.logger.warning(e)
@@ -149,13 +159,15 @@ def show_user_checkout(username):
     for i in range(len(country)):
         country[i] = Markup(country[i])
     cart = get_cart(username)
-
+    subtotals = []
     total = 0
     if cart is not None:
-        for i in cart:
+        """for i in cart:
             total = total + i['quantity'] * i['cost']
-
+        """
         for i in range(len(cart)):
+            subtotals.append(cart[i]['quantity'] * cart[i]['cost'])
+            total = total + cart[i]['quantity'] * cart[i]['cost']
             cart[i]['cost'] = format(cart[i]['cost'], '.2f')
         total = format(total, '.2f')
     return my_render('checkout.html', login_current=True, page_title='Checkout', cart=cart, promo_codes=promo_codes, email=email, countries=country, total=total)
@@ -167,19 +179,19 @@ def show_user_cart(username):
     cart=None
     promo_codes=None
     email = get_email(session_user());
-    for i in range(len(country)):
-        country[i] = Markup(country[i])
     cart = get_cart(username)
-
+    subtotals = []
     total = 0
     if cart is not None:
-        for i in cart:
+        """for i in cart:
             total = total + i['quantity'] * i['cost']
-
+        """
         for i in range(len(cart)):
+            subtotals.append(cart[i]['quantity'] * cart[i]['cost'])
+            total = total + cart[i]['quantity'] * cart[i]['cost']
             cart[i]['cost'] = format(cart[i]['cost'], '.2f')
         total = format(total, '.2f')
-    return my_render('cart.html', login_current=True, page_title='Cart', cart=cart, promo_codes=promo_codes, email=email, countries=country, total=total)
+    return my_render('cart.html', login_current=True, page_title='Cart', cart=cart, promo_codes=promo_codes, email=email, total=total, subtotals=subtotals)
 
 @MyApp.route("/account/<username>")
 def show_user_account(username):
