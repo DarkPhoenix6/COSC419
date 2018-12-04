@@ -14,7 +14,7 @@ def to_dict(keys, items):
 	k = {}	# temp dict
 	l = [] # list to hold tuples
 	m = [] # list to hold dictionaries
-	print 'hi'
+
 	def to_dict_list_gen(it):
 		c = len(keys) if len(keys) <= len(it) else len(it)
 		#for i, j in keys, it:
