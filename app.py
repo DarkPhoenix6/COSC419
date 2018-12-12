@@ -5,7 +5,8 @@ import random
 import os
 import sqlite3
 MyApp = Flask(__name__)
-MyApp.secret_key = os.urandom(16)
+# MyApp.secret_key = os.urandom(16)
+MyApp.secret_key = b'\xc2\xa6\x9a\x93Q\xd7 \x85\x10\r_\xe8N\x90f '
 
 
 def to_dict(keys, items):
@@ -98,7 +99,7 @@ def is_logged_in():
 
     :return:
     """
-    return session.get('logged_in') == True
+    return session.get('logged_in') is True
 
 
 def get_countries():
@@ -218,11 +219,20 @@ def teapot_error(error):
 
 @MyApp.route("/api/loginSubmit", methods=['POST'])
 def login_submit():
+    """
+
+    :return:
+    """
     return None
 
 
 @MyApp.route("/user/<username>")
 def show_user_profile(username):
+    """
+
+    :param username:
+    :return:
+    """
     #teapot for now
     abort(418)
 
@@ -236,9 +246,9 @@ def show_user_checkout(username):
     """
     if not is_logged_in() or username != session_user():
         abort(403)
-    cart=None
-    promo_codes=None
-    email = get_email(session_user());
+    cart = None
+    promo_codes = None
+    email = get_email(session_user())
     country = ['<option value="CA">Canada</option>', '<option value="US">United States of America</option>']
     for i in range(len(country)):
         country[i] = Markup(country[i])
@@ -260,6 +270,11 @@ def show_user_checkout(username):
 
 @MyApp.route("/account/<username>/cart")
 def show_user_cart(username):
+    """
+
+    :param username:
+    :return:
+    """
     if not is_logged_in() or username != session_user():
         abort(403)
     cart = None
@@ -283,6 +298,11 @@ def show_user_cart(username):
 
 @MyApp.route("/account/<username>")
 def show_user_account(username):
+    """
+
+    :param username:
+    :return:
+    """
     #teapot for now
     abort(418)
 
@@ -313,15 +333,23 @@ def login_route():
 
 @MyApp.route('/teapot')
 def teapot():
+    """
+
+    :return:
+    """
     abort(418)
 
 
 @MyApp.route("/page2")
 def page2_page():
+    """
+
+    :return:
+    """
     if is_logged_in():
         return my_render('index.html', page2_current=True, page_title='Page2')
     else:
-        r = random.randint(0,9999)
+        r = random.randint(0, 9999)
         r = r % 2
         if r == 1:
             abort(418)
@@ -332,6 +360,10 @@ def page2_page():
 
 @MyApp.route("/contact", methods=['GET', 'POST'])
 def contact_page():
+    """
+
+    :return:
+    """
     kw = dict()
     kw['contact_current'] = True
     kw['page_title'] = "Contact"
@@ -343,16 +375,28 @@ def contact_page():
 
 @MyApp.route("/about")
 def about_page():
+    """
+    The about page
+    :return:
+    """
     return my_render('about.html', about_current=True, page_title="About")
 
 
 @MyApp.route("/api/getCurrentUser", methods=['GET', 'POST'])
 def get_current_user():
+    """
+
+    :return:
+    """
     return session_user()
 
 
 @MyApp.route('/logout')
 def logout():
+    """
+    Used to log the user out
+    :return:
+    """
     # remove the username from the session if it's there
     session.pop('username', None)
     session['logged_in'] = False
